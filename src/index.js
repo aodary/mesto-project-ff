@@ -3,7 +3,7 @@ import {initialCards} from './scripts/cards.js';
 import { closePopup ,closeButtons,addButton,editButton,openPopup} from './scripts/popup.js';
 import './scripts/form.js';
 import { createCard,handleDeleteCard} from './scripts/card.js';
-import { cardForm,profileForm } from './scripts/form.js';
+import { cardForm,profileForm,profileDescription,profileTitle } from './scripts/form.js';
 import { handleCardFormSubmit,handleProfileFormSubmit } from './scripts/form.js';
 export const place = document.querySelector('.places__list');
 export const popupEdit = document.querySelector('.popup_type_edit')
@@ -34,10 +34,8 @@ initialCards.forEach(data => {
   place.append(cardElement);
 });
 addButton.addEventListener('click', () => openPopup(popupAdd));
-editButton.addEventListener('click', () => {
-  
-  openPopup(popupEdit)
-}
+editButton.addEventListener('click', () => openProfilePopup()
+
 );
 
 export function addCard(name,link) {
@@ -53,6 +51,10 @@ export function openImagePopup(data){
   openPopup(popupImg)
 
 }
-
+function openProfilePopup() {
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;  
+  openPopup(popupEdit); 
+}
 cardForm.addEventListener('submit',handleCardFormSubmit)
 profileForm.addEventListener('submit', handleProfileFormSubmit); 
