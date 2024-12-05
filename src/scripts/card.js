@@ -1,20 +1,24 @@
-import { cardTemplate, openImagePopup } from "..";
-export function createCard(data, deleteCard) {
+import { cardTemplate} from "..";
+export const createCard = (cardData, onDeleteCard, onLikeCard, onOpenImagePopup) =>{
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    const likeButton = cardElement.querySelector('.card__like-button')
+    const likeButton = cardElement.querySelector('.card__like-button');
     const cardImage = cardElement.querySelector('.card__image');
-    cardElement.querySelector('.card__image').src = data.link;
-    cardElement.querySelector('.card__title').textContent = data.name;
-    cardElement.querySelector('.card__image').alt = data.name;
-    
-    deleteButton.addEventListener('click', () => deleteCard(cardElement));
-    likeButton.addEventListener('click',()=> likeCard(likeButton))
-    cardImage.addEventListener('click',() => {openImagePopup(data)})
+
+    cardImage.src = cardData.link;
+    cardImage.alt = cardData.name;
+    cardElement.querySelector('.card__title').textContent = cardData.name;
+
+
+    deleteButton.addEventListener('click', () => onDeleteCard(cardElement));
+    likeButton.addEventListener('click', () => onLikeCard(likeButton));
+    cardImage.addEventListener('click', () => onOpenImagePopup(cardData));
+
     return cardElement;
-  }
+}
   
-function likeCard(likeButton){
+export function likeCard(likeButton){
     likeButton.classList.toggle('card__like-button_is-active')
 
 }
