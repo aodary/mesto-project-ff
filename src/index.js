@@ -37,9 +37,7 @@ initialCards.forEach(cardData => {
   place.append(cardElement);
 });
 addButton.addEventListener('click', () => openPopup(popupAdd));
-editButton.addEventListener('click', () => openProfilePopup()
-
-);
+editButton.addEventListener('click', openProfilePopup);
 function openImagePopup(cardData) {
   popupCard.src = cardData.link;
   popupCard.alt = cardData.name;
