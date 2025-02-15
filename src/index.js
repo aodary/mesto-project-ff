@@ -1,8 +1,8 @@
 import './styles/index.css';
 import { createCard,cleanCard,cardLikeStat } from './scripts/card';
-import { animationPopup,openPopup,closePopup,keyDown,click } from './scripts/popup';
+import { addAnimationToPopups,openPopup,closePopup,keyDown,click } from './scripts/popup';
 import { validcfg} from './scripts/cfg';
-import { enableValidity,clearFormErr } from './scripts/validation.js';
+import { enableValidation,clearFormValidationErrors } from './scripts/validation.js';
 import { fetchUser,fetchCards,userProfile,addCard,profileAvatar } from './scripts/api.js';
 import { saving } from './scripts/save.js';
 const place = document.querySelector('.places__list');
@@ -30,7 +30,7 @@ const popupArr = document.querySelectorAll('.popup')
 
 let userId = ""
 
-animationPopup(popupArr)
+addAnimationToPopups(popupArr)
 
 const openImgPopup =(cardData) =>{
     popupImgDescription.textContent = cardData.name
@@ -52,12 +52,12 @@ Promise.all([fetchUser(),fetchCards()])
   .catch(err => console.log(err));
 editButton.addEventListener('click',()=>{
   refillProfileForm()
-  clearFormErr(popupEdit,validcfg)
+  clearFormValidationErrors(popupEdit,validcfg)
   openPopup(popupEdit,keyDown,click)
 })
 
 addButton.addEventListener('click', ()=>{
-  clearFormErr(popupAdd,validcfg)
+  clearFormValidationErrors(popupAdd,validcfg)
   openPopup(popupAdd,keyDown,click)
 })
 
@@ -72,7 +72,7 @@ const refillProfileForm = () => {
   jobInput.value = profileDescription.textContent
 }
 
-const handleFormSubmit = (form,api,success) => (evt) => {
+const handleFormPopupSubmitButton = (form,api,success) => (evt) => {
 evt.preventDefault()
 const acceptbutton = form.querySelector('.popup__button')
 saving(true,acceptbutton)
@@ -84,11 +84,11 @@ api()
 }
 
 profileImg.addEventListener('click', ()=>{
-  clearFormErr(popupEditProfileImg,validcfg)
+  clearFormValidationErrors(popupEditProfileImg,validcfg)
   openPopup(popupEditProfileImg,keyDown,click)
 })
 
-profileForm.addEventListener('submit', handleFormSubmit(
+profileForm.addEventListener('submit', handleFormPopupSubmitButton(
   profileForm,
   () => userProfile(nameInput.value, jobInput.value),
   (profileInfo) => {
@@ -98,7 +98,7 @@ profileForm.addEventListener('submit', handleFormSubmit(
   }
 ));
 
-profileIgmForm.addEventListener('submit', handleFormSubmit(
+profileIgmForm.addEventListener('submit', handleFormPopupSubmitButton(
   profileIgmForm,
   () => profileAvatar(profileImgInput.value),
   (res) => {
@@ -109,7 +109,7 @@ profileIgmForm.addEventListener('submit', handleFormSubmit(
 ));
 
 
-cardForm.addEventListener('submit',handleFormSubmit(cardForm,()=>addCard(cardNameInput.value,cardLinkInput.value),
+cardForm.addEventListener('submit',handleFormPopupSubmitButton(cardForm,()=>addCard(cardNameInput.value,cardLinkInput.value),
 (cardData) =>{
   place.prepend(createCard(cardData,cleanCard,cardLikeStat,openImgPopup,userId))
   closePopup(popupAdd)
@@ -118,5 +118,5 @@ cardForm.addEventListener('submit',handleFormSubmit(cardForm,()=>addCard(cardNam
 }
 ))
 
-enableValidity(validcfg)
+enableValidation(validcfg)
 

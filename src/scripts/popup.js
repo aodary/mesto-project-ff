@@ -6,19 +6,19 @@ const togglePopup = (popup) => {
   }
 }
 
-export const animationPopup = (popups) => {
+export const addAnimationToPopups = (popups) => {
   for (const popup of popups) {
 		popup.classList.add('popup_is-animated');
 	}
 }
 
-export const openPopup = (popup, keyDown, click) =>{
+export const openPopup = (popup) =>{
   togglePopup(popup)
   document.addEventListener('keydown', keyDown)
   popup.addEventListener('click', click)
 }
 
-export const closePopup = (popup ,keyDown, click) =>{
+export const closePopup = (popup) =>{
   togglePopup(popup)
   document.removeEventListener('keydown', keyDown)
   popup.removeEventListener('click', click)
